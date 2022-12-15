@@ -71,3 +71,23 @@ const NewBook = new Book("World Cup", "2000.09.03");
 console.log(NewBook instanceof Book, "NewBook instanceof Book");
 
 NewBook.print();
+
+const TVShow = function (name, quantityOfSeries) {
+  this.name = name;
+  this.quantityOfSeries = quantityOfSeries;
+};
+
+TVShow.prototype = {
+  showTVShow: function () {
+    console.log(
+      `TV Show: ${this.name}, Quantity Of Series: ${this.quantityOfSeries}`,
+      this.name
+    );
+  },
+};
+
+const WednesdayTV = new TVShow("Wednesday", 8);
+WednesdayTV.showTVShow();
+
+const Witcher = new TVShow("Witcher", 14);
+Witcher.showTVShow();
