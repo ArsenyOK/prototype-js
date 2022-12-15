@@ -46,4 +46,72 @@ Function.console([sonAge.age, fatherAge.age, GrandFatherAge.age]); // [14, 30, 5
 So We have this array `[14, 30, 52]` because We changed property only in Son and Father not for GrandFather. Therefore a class GrandFather stayed the same
 
 
-### Methods `in` and `hasOwnProperty`
+### Operator's `in` and method's `hasOwnProperty()`
+
+**hasOwnProperty**: The *`hasOwnProperty()`* method returns a boolean indicating whether the object has the specified property as its own property.
+
+**in**: The operator returns true if the property is stored in the specified object or its prototype chain.
+
+```no-highlight
+console.log("console" in few, "Use method in"); // true
+console.log(few.hasOwnProperty("console"), "USe method hasOwnProperty"); //  false
+```
+
+First `console.log()` displays `true` because `operator in` checks method inside few() function and `Object.prototype`.
+
+Second `console.log()` displays `false`. In this case method `hasOwnProperty()` checks only that method only inside few() function.
+
+### Reference `_proto_`
+
+**`__proto__`** is a reference to the constructor's prototype(prototype).
+
+```no-highlight
+ function getProperty(obj, prop) {
+  if (obj.hasOwnProperty(prop)) return obj[prop];
+  else if (obj.__proto__ !== null) return getProperty(obj.__proto__, prop);
+  else return undefined;
+}
+
+const Point = {
+  x: 0,
+  y: 0,
+  print: function () {
+    console.log(this.x, this.y);
+  },
+};
+
+const p = { x: 10, __proto__: Point }; // with using _proto_ we inherit constructor of Point
+
+getProperty(p, "print").call(p); // 10 0
+```
+Why we have `y = 0`, we definitely didn't initialize the value of `y`. In this result the `_proto_` inherit constructor and the search will happen in Point too.
+
+
+### Creating constructors and methods
+
+#### `TVShow` is our class with a constructor
+#### `TVShow.prototype` in this case we create `showTVShow()` function. This function we can use in the new classes inherited from TVSHow
+
+```no-highlight
+const TVShow = function (name, quantityOfSeries) {
+  this.name = name;
+  this.quantityOfSeries = quantityOfSeries;
+};
+
+TVShow.prototype = {
+  showTVShow: function () {
+    console.log(
+      `TV Show: ${this.name}, Quantity Of Series: ${this.quantityOfSeries}`,
+      this.name
+    );
+  },
+};
+
+const WednesdayTV = new TVShow("Wednesday", 8);
+WednesdayTV.showTVShow(); // TV Show: Wednesday, Quantity Of Series: 8 Wednesday
+
+const Witcher = new TVShow("Witcher", 14);
+Witcher.showTVShow(); // TV Show: Witcher, Quantity Of Series: 14 Witcher
+```
+
+
